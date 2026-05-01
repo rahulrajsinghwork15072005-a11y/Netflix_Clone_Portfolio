@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dev Village — Rahul Raj Singh RPG Portfolio</title>
+  <link rel="stylesheet" href="rpg-style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323:wght@400&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+<div id="game-wrapper">
+
+  <!-- ── Main Canvas ─────────────────────────────────────── -->
+  <canvas id="gameCanvas"></canvas>
+
+  <!-- ── HUD Overlay ─────────────────────────────────────── -->
+  <div id="hud">
+    <div id="hud-top">
+      <div id="hud-left-panel">
+        <div id="hud-level">
+          <span class="hud-label">DEV LEVEL</span>
+          <span class="lv-val">1</span>
+          <div id="xp-bar-wrap"><div id="xp-bar-fill"></div></div>
+        </div>
+        <div id="hud-stats">
+          <span id="stat-hp">❤️ 100</span>
+          <span id="stat-mp">💎 50</span>
+          <span id="stat-coins">🪙 0</span>
+        </div>
+      </div>
+      <div id="hud-center">
+        <div id="hud-location">🗺️ <span id="location-name">Portfolio Plaza</span></div>
+      </div>
+      <div id="hud-right-panel">
+        <div id="hud-time">
+          <span class="time-icon">☀️</span>
+          <span id="time-label">Day</span>
+        </div>
+        <div id="hud-weather">
+          <span id="weather-icon">🌤️</span>
+        </div>
+      </div>
+    </div>
+    <div id="hud-bottom">
+      <div id="hud-quest-bar">▶ Find the Village Elder</div>
+    </div>
+  </div>
+
+  <!-- ── Minimap HUD ──────────────────────────────────────── -->
+  <div id="minimap-container">
+    <canvas id="minimapCanvas" width="120" height="120"></canvas>
+    <div id="minimap-label">MAP</div>
+  </div>
+
+  <!-- ── Hotbar ───────────────────────────────────────────── -->
+  <div id="hotbar">
+    <div class="hotbar-slot" id="hotbar-0"><span class="slot-num">1</span></div>
+    <div class="hotbar-slot" id="hotbar-1"><span class="slot-num">2</span></div>
+    <div class="hotbar-slot" id="hotbar-2"><span class="slot-num">3</span></div>
+    <div class="hotbar-slot" id="hotbar-3"><span class="slot-num">4</span></div>
+    <div class="hotbar-slot" id="hotbar-4"><span class="slot-num">5</span></div>
+    <div class="hotbar-slot" id="hotbar-5"><span class="slot-num">6</span></div>
+  </div>
+
+  <!-- ── Toast Notification ──────────────────────────────── -->
+  <div id="toast"></div>
+  <div id="toast2"></div>
+
+  <!-- ── Doorstep Prompt ─────────────────────────────────── -->
+  <div id="doorstep-prompt">
+    <span id="doorstep-icon">🏠</span>
+    <span id="doorstep-text">ENTER ABOUT ME</span>
+    <span class="doorstep-key">[E / SPACE]</span>
+  </div>
+
+  <!-- ── Dialogue Box ────────────────────────────────────── -->
+  <div id="dialogue-box">
+    <div id="dlg-portrait"><span id="dlg-portrait-icon">👤</span></div>
+    <div id="dlg-content">
+      <div id="dlg-speaker" class="dlg-speaker">NPC</div>
+      <div id="dlg-text"    class="dlg-text"></div>
+      <div id="dlg-choices" class="dlg-choices" style="display:none"></div>
+      <div id="dlg-continue" class="dlg-continue">[ SPACE / E — Continue ]</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!--  START SCREEN                                          -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div id="start-screen">
+    <div class="start-bg-grid"></div>
+    <div class="start-particles" id="startParticles"></div>
+
+    <div class="title-art">
+      ██████╗ ███████╗██╗   ██╗<br>
+      ██╔══██╗██╔════╝██║   ██║<br>
+      ██║  ██║█████╗  ██║   ██║<br>
+      ██║  ██║██╔══╝  ╚██╗ ██╔╝<br>
+      ██████╔╝███████╗ ╚████╔╝ <br>
+      ╚═════╝ ╚══════╝  ╚═══╝
+    </div>
+    <div class="subtitle">✦ R A H U L  R A J  S I N G H ✦</div>
+    <div class="sub2">Data & AI Portfolio — 10× the World</div>
+
+    <div class="controls-box">
+      <h3>— CONTROLS —</h3>
+      <div class="ctrl-grid">
+        <div class="ctrl-row"><span class="key">WASD</span><span class="key">↑↓←→</span><span class="ctrl-desc">Move</span></div>
+        <div class="ctrl-row"><span class="key">E</span><span class="key">SPC</span><span class="ctrl-desc">Interact / Enter</span></div>
+        <div class="ctrl-row"><span class="key">I</span><span class="ctrl-desc">Inventory</span></div>
+        <div class="ctrl-row"><span class="key">Q</span><span class="ctrl-desc">Quest Log</span></div>
+        <div class="ctrl-row"><span class="key">M</span><span class="ctrl-desc">World Map</span></div>
+        <div class="ctrl-row"><span class="key">ESC</span><span class="ctrl-desc">Pause</span></div>
+      </div>
+    </div>
+
+    <button id="start-btn" class="press-start-btn">▶ PRESS START</button>
+    <div class="version-tag">v2.0 — RAHUL EDITION</div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!--  SECTION MODALS (triggered by doorstep)               -->
+  <!-- ══════════════════════════════════════════════════════ -->
+
+  <!-- ABOUT ME -->
+  <div id="modal-about" class="section-modal-overlay">
+    <div class="section-modal section-about">
+      <button class="section-modal-close" data-modal="about">✕</button>
+      <div class="section-modal-header">
+        <div class="section-icon-wrap about-icon">🏠</div>
+        <div>
+          <div class="section-modal-title">About Me</div>
+          <div class="section-modal-subtitle">Rahul Raj Singh — Data & AI Enthusiast</div>
+        </div>
+      </div>
+      <div class="section-modal-body">
+        <div class="about-hero">
+          <div class="avatar-box">
+            <div class="avatar-pixel">
+              <canvas id="avatarCanvas" width="80" height="80"></canvas>
+            </div>
+            <div class="avatar-status">
+              <span class="status-dot"></span> Open to internships / entry-level
+            </div>
+          </div>
+          <div class="about-intro">
+            <p class="intro-text">Hey! I'm a <span class="highlight">BTech Computer Science student at VIT Chennai</span> (graduating 2027) with hands‑on experience in data analysis, Python automation, and embedded systems. I've completed two data analytics internships and led an AI robotics team — bridging software and hardware with data‑driven thinking.</p>
+            <div class="about-badges">
+              <span class="badge">🎓 VIT Chennai</span>
+              <span class="badge">⚡ Open Source</span>
+              <span class="badge">🤖 AI Robotics</span>
+              <span class="badge">📊 Data Analyst</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-grid">
+          <div class="stat-card">
+            <span class="stat-num">10+</span>
+            <span class="stat-label">Projects Built</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-num">3+</span>
+            <span class="stat-label">Years Coding</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-num">4</span>
+            <span class="stat-label">Internships</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-num">92%</span>
+            <span class="stat-label">Braille SVM Accuracy</span>
+          </div>
+        </div>
+
+        <div class="timeline-section">
+          <h3 class="section-h3">⏳ Journey</h3>
+          <div class="timeline">
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-content">
+                <span class="tl-year">Sep 2025 – May 2026</span>
+                <span class="tl-role">Tech Lead (AI Robotics) @ Havoltz</span>
+                <span class="tl-desc">Led 6‑engineer team, AI‑powered line‑following robots, sensor fusion, OpenCV simulation.</span>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-content">
+                <span class="tl-year">May 2025 – Aug 2025</span>
+                <span class="tl-role">Senior Data Analyst Intern @ E‑Search Advisors</span>
+                <span class="tl-desc">SEO analysis (+28% traffic), Looker Studio dashboards, A/B testing, mentored juniors.</span>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-content">
+                <span class="tl-year">Sep 2024 – Present</span>
+                <span class="tl-role">Management & Data Strategy @ DAO Club</span>
+                <span class="tl-desc">150+ member Web3 club, analytics dashboards, 45% engagement lift, sentiment analysis.</span>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-content">
+                <span class="tl-year">May 2024 – Aug 2024</span>
+                <span class="tl-role">Junior Data Analyst Intern @ E‑Search Advisors</span>
+                <span class="tl-desc">Data cleaning (Excel, Python), reduced processing time 25%, outlier detection (IQR).</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="fun-facts">
+          <h3 class="section-h3">⚡ Fun Facts</h3>
+          <div class="facts-grid">
+            <div class="fact-item">☕ 3 coffees/day</div>
+            <div class="fact-item">🎮 Builds retro web games</div>
+            <div class="fact-item">📚 Compiler nerd</div>
+            <div class="fact-item">🤖 Robots powered by Pi</div>
+            <div class="fact-item">🎓 94.2% in X</div>
+            <div class="fact-item">🌙 Night‑owl coder</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROJECTS -->
+  <div id="modal-projects" class="section-modal-overlay">
+    <div class="section-modal section-projects">
+      <button class="section-modal-close" data-modal="projects">✕</button>
+      <div class="section-modal-header">
+        <div class="section-icon-wrap projects-icon">🔬</div>
+        <div>
+          <div class="section-modal-title">Projects Lab</div>
+          <div class="section-modal-subtitle">10 Things I've Built & Shipped</div>
+        </div>
+      </div>
+      <div class="section-modal-body">
+        <div class="filter-bar">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="web">Web</button>
+          <button class="filter-btn" data-filter="hardware">Hardware</button>
+          <button class="filter-btn" data-filter="ai">AI/ML</button>
+        </div>
+
+        <div class="projects-grid" id="projectsGrid">
+          <!-- Compiler Visualizer -->
+          <div class="project-card featured" data-tags="web">
+            <div class="project-header">
+              <span class="project-icon">⚙️</span>
+              <div class="project-meta">
+                <span class="project-name">Compiler Visualiser</span>
+                <span class="project-type">Web · Education</span>
+              </div>
+              <div class="project-badges">
+                <span class="p-badge featured-badge">⭐ FEATURED</span>
+              </div>
+            </div>
+            <p class="project-desc">6 parsing algorithms (LL(1), LR(0), SLR, LALR, CLR, Operator Precedence) with FIRST/FOLLOW, TAC, and x86 assembly output. Built for students.</p>
+            <div class="project-tech">
+              <span>JavaScript</span><span>LL(1)</span><span>LR Parsing</span><span>x86 Assembly</span>
+            </div>
+            <div class="project-stats">
+              <span>🌐 Live</span><span>📦 GitHub</span>
+            </div>
+            <div class="project-links">
+              <a href="https://compiler-visualised-rrs.vercel.app/" target="_blank" class="p-link">→ Demo</a>
+              <a href="https://github.com/rahulrajsinghwork15072005-a11y/Compiler_Visualised_RRS" target="_blank" class="p-link">→ GitHub</a>
+            </div>
+          </div>
+
+          <!-- Ultimate OS Visualizer -->
+          <div class="project-card" data-tags="web">
+            <div class="project-header">
+              <span class="project-icon">🖥️</span>
+              <div class="project-meta">
+                <span class="project-name">Ultimate OS Visualizer — Y2K Edition</span>
+                <span class="project-type">Web · Simulator</span>
+              </div>
+            </div>
+            <p class="project-desc">CPU scheduling, deadlock, disk scheduling, paging/segmentation, IPC. Interactive charts and retro UI.</p>
+            <div class="project-tech">
+              <span>JavaScript</span><span>Chart.js</span><span>Canvas API</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="p-link">→ Demo</a>
+              <a href="#" class="p-link">→ GitHub</a>
+            </div>
+          </div>
+
+          <!-- WikiBoard -->
+          <div class="project-card" data-tags="web">
+            <div class="project-header">
+              <span class="project-icon">📋</span>
+              <div class="project-meta">
+                <span class="project-name">WikiBoard</span>
+                <span class="project-type">Web · Canvas</span>
+              </div>
+            </div>
+            <p class="project-desc">Infinite canvas for Wikipedia articles. Drag, connect, sticky notes, minimap, JSON export.</p>
+            <div class="project-tech">
+              <span>JavaScript</span><span>Wikipedia API</span><span>SVG</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="p-link">→ Demo</a>
+              <a href="#" class="p-link">→ GitHub</a>
+            </div>
+          </div>
+
+          <!-- WebOS XP -->
+          <div class="project-card" data-tags="web">
+            <div class="project-header">
+              <span class="project-icon">🪟</span>
+              <div class="project-meta">
+                <span class="project-name">WebOS XP</span>
+                <span class="project-type">Web · Desktop OS</span>
+              </div>
+            </div>
+            <p class="project-desc">XP‑style desktop in browser. Boot CLI, draggable windows, 15+ apps, 9 games, virtual file system.</p>
+            <div class="project-tech">
+              <span>JavaScript</span><span>Canvas</span><span>localStorage</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="p-link">→ Demo</a>
+              <a href="#" class="p-link">→ GitHub</a>
+            </div>
+          </div>
+
+          <!-- Anfield Echo -->
+          <div class="project-card" data-tags="web">
+            <div class="project-header">
+              <span class="project-icon">🔴</span>
+              <div class="project-meta">
+                <span class="project-name">Anfield Echo</span>
+                <span class="project-type">Web · Fan Blog</span>
+              </div>
+            </div>
+            <p class="project-desc">Premium LFC fan site. Horizontal scroll gallery, 4‑3‑3 formation visual, light/dark theme.</p>
+            <div class="project-tech">
+              <span>HTML</span><span>CSS</span><span>JavaScript</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="p-link">→ Demo</a>
+              <a href="#" class="p-link">→ GitHub</a>
+            </div>
+          </div>
+
+          <!-- Mockly -->
+          <div class="project-card" data-tags="web">
+            <div class="project-header">
+              <span class="project-icon">💬</span>
+              <div class="project-meta">
+                <span class="project-name">Mockly</span>
+                <span class="project-type">Web · Mockup Tool</span>
+              </div>
+            </div>
+            <p class="project-desc">Generate realistic chat screenshots for 8 platforms (WhatsApp, iMessage, etc.). No frameworks.</p>
+            <div class="project-tech">
+              <span>JavaScript</span><span>html2canvas</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="p-link">→ Demo</a>
+              <a href="#" class="p-link">→ GitHub</a>
+            </div>
+          </div>
+
+          <!-- MakeNotes -->
+          <div class="project-card" data-tags="web">
+            <div class="project-header">
+              <span class="project-icon">📝</span>
+              <div class="project-meta">
+                <span class="project-name">MakeNotes</span>
+                <span class="project-type">Web · PWA</span>
+              </div>
+            </div>
+            <p class="project-desc">Spatial note‑taking canvas with rich‑text, connections, offline PWA, export to Markdown/JSON/PNG.</p>
+            <div class="project-tech">
+              <span>PWA</span><span>Service Worker</span><span>Canvas</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="p-link">→ Demo</a>
+              <a href="#" class="p-link">→ GitHub</a>
+            </div>
+          </div>
+
+          <!-- Dev Village XL -->
+          <div class="project-card" data-tags="web">
+            <div class="project-header">
+              <span class="project-icon">🗺️</span>
+              <div class="project-meta">
+                <span class="project-name">Dev Village XL</span>
+                <span class="project-type">Web · RPG</span>
+              </div>
+            </div>
+            <p class="project-desc">This very portfolio — a 60×60 RPG world built with vanilla JS, custom audio, day/night cycle.</p>
+            <div class="project-tech">
+              <span>Canvas</span><span>Web Audio</span><span>Game Loop</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="p-link">→ Repo</a>
+            </div>
+          </div>
+
+          <!-- Braille Device -->
+          <div class="project-card" data-tags="hardware ai">
+            <div class="project-header">
+              <span class="project-icon">♿</span>
+              <div class="project-meta">
+                <span class="project-name">Text-to-Braille System</span>
+                <span class="project-type">Hardware · AI</span>
+              </div>
+            </div>
+            <p class="project-desc">Raspberry Pi + OpenCV + SVM. Captures text, 92% char accuracy, refreshable Braille cells.</p>
+            <div class="project-tech">
+              <span>Python</span><span>OpenCV</span><span>SVM</span>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/rahulrajsinghwork15072005-a11y/braille-device" target="_blank" class="p-link">→ GitHub</a>
+            </div>
+          </div>
+
+          <!-- Yellove Echo -->
+          <div class="project-card" data-tags="web">
+            <div class="project-header">
+              <span class="project-icon">💛</span>
+              <div class="project-meta">
+                <span class="project-name">Yellove Echo</span>
+                <span class="project-type">Web · CSK Fan Blog</span>
+              </div>
+            </div>
+            <p class="project-desc">CSK fan site with hand‑gesture navigation, horizontal gallery, modern CSS (popover, view‑transitions).</p>
+            <div class="project-tech">
+              <span>CSS</span><span>MediaPipe</span><span>Gesture</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="p-link">→ Demo</a>
+              <a href="#" class="p-link">→ GitHub</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SKILLS -->
+  <div id="modal-skills" class="section-modal-overlay">
+    <div class="section-modal section-skills">
+      <button class="section-modal-close" data-modal="skills">✕</button>
+      <div class="section-modal-header">
+        <div class="section-icon-wrap skills-icon">⚔️</div>
+        <div>
+          <div class="section-modal-title">Skills Dojo</div>
+          <div class="section-modal-subtitle">Weapons in My Arsenal</div>
+        </div>
+      </div>
+      <div class="section-modal-body">
+        <div class="skills-tabs">
+          <button class="skill-tab active" data-tab="languages">Languages</button>
+          <button class="skill-tab" data-tab="data">Data & Analytics</button>
+          <button class="skill-tab" data-tab="tools">Tools & Platforms</button>
+          <button class="skill-tab" data-tab="hardware">Hardware</button>
+        </div>
+
+        <div class="skill-panel active" id="tab-languages">
+          <div class="skill-bar-list">
+            <div class="skill-row"><span class="sk-name">Python</span><div class="sk-bar"><div class="sk-fill" style="width:92%"><span>92</span></div></div><span class="sk-tag">Expert</span></div>
+            <div class="skill-row"><span class="sk-name">C / C++</span><div class="sk-bar"><div class="sk-fill" style="width:85%"><span>85</span></div></div><span class="sk-tag">Advanced</span></div>
+            <div class="skill-row"><span class="sk-name">SQL</span><div class="sk-bar"><div class="sk-fill" style="width:88%"><span>88</span></div></div><span class="sk-tag">Advanced</span></div>
+            <div class="skill-row"><span class="sk-name">JavaScript</span><div class="sk-bar"><div class="sk-fill" style="width:80%"><span>80</span></div></div><span class="sk-tag">Proficient</span></div>
+          </div>
+          <div class="tech-chip-grid">
+            <span class="tech-chip py">Python</span>
+            <span class="tech-chip">C++</span>
+            <span class="tech-chip">SQL</span>
+            <span class="tech-chip">JavaScript</span>
+          </div>
+        </div>
+
+        <div class="skill-panel" id="tab-data">
+          <div class="skill-bar-list">
+            <div class="skill-row"><span class="sk-name">pandas / NumPy</span><div class="sk-bar"><div class="sk-fill" style="width:90%"><span>90</span></div></div><span class="sk-tag">Expert</span></div>
+            <div class="skill-row"><span class="sk-name">scikit-learn</span><div class="sk-bar"><div class="sk-fill" style="width:82%"><span>82</span></div></div><span class="sk-tag">Advanced</span></div>
+            <div class="skill-row"><span class="sk-name">Power BI / Looker</span><div class="sk-bar"><div class="sk-fill" style="width:78%"><span>78</span></div></div><span class="sk-tag">Advanced</span></div>
+            <div class="skill-row"><span class="sk-name">Excel / Google Sheets</span><div class="sk-bar"><div class="sk-fill" style="width:95%"><span>95</span></div></div><span class="sk-tag">Expert</span></div>
+          </div>
+          <div class="tech-chip-grid">
+            <span class="tech-chip">pandas</span>
+            <span class="tech-chip">NumPy</span>
+            <span class="tech-chip">scikit-learn</span>
+            <span class="tech-chip">Power BI</span>
+            <span class="tech-chip">Looker Studio</span>
+          </div>
+        </div>
+
+        <div class="skill-panel" id="tab-tools">
+          <div class="skill-bar-list">
+            <div class="skill-row"><span class="sk-name">Git / GitHub</span><div class="sk-bar"><div class="sk-fill" style="width:88%"><span>88</span></div></div><span class="sk-tag">Advanced</span></div>
+            <div class="skill-row"><span class="sk-name">VS Code / Jupyter</span><div class="sk-bar"><div class="sk-fill" style="width:90%"><span>90</span></div></div><span class="sk-tag">Expert</span></div>
+            <div class="skill-row"><span class="sk-name">Docker / AWS</span><div class="sk-bar"><div class="sk-fill" style="width:70%"><span>70</span></div></div><span class="sk-tag">Proficient</span></div>
+          </div>
+          <div class="tech-chip-grid">
+            <span class="tech-chip">Git</span>
+            <span class="tech-chip">VS Code</span>
+            <span class="tech-chip">Jupyter</span>
+            <span class="tech-chip">Docker</span>
+            <span class="tech-chip">AWS</span>
+          </div>
+        </div>
+
+        <div class="skill-panel" id="tab-hardware">
+          <div class="skill-bar-list">
+            <div class="skill-row"><span class="sk-name">Raspberry Pi</span><div class="sk-bar"><div class="sk-fill" style="width:80%"><span>80</span></div></div><span class="sk-tag">Proficient</span></div>
+            <div class="skill-row"><span class="sk-name">OpenCV</span><div class="sk-bar"><div class="sk-fill" style="width:82%"><span>82</span></div></div><span class="sk-tag">Advanced</span></div>
+            <div class="skill-row"><span class="sk-name">Embedded C++</span><div class="sk-bar"><div class="sk-fill" style="width:75%"><span>75</span></div></div><span class="sk-tag">Proficient</span></div>
+          </div>
+          <div class="tech-chip-grid">
+            <span class="tech-chip">Raspberry Pi</span>
+            <span class="tech-chip">OpenCV</span>
+            <span class="tech-chip">GPIO</span>
+            <span class="tech-chip">SVM</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div id="modal-contact" class="section-modal-overlay">
+    <div class="section-modal section-contact">
+      <button class="section-modal-close" data-modal="contact">✕</button>
+      <div class="section-modal-header">
+        <div class="section-icon-wrap contact-icon">📡</div>
+        <div>
+          <div class="section-modal-title">Contact Terminal</div>
+          <div class="section-modal-subtitle">Establish a connection</div>
+        </div>
+      </div>
+      <div class="section-modal-body">
+        <div class="terminal-window">
+          <div class="terminal-bar">
+            <span class="t-dot red"></span>
+            <span class="t-dot yellow"></span>
+            <span class="t-dot green"></span>
+            <span class="t-title">contact.sh</span>
+          </div>
+          <div class="terminal-body" id="terminalBody">
+            <div class="t-line"><span class="t-prompt">$ </span><span class="t-cmd">whoami</span></div>
+            <div class="t-line t-output">Rahul Raj Singh — CS student, data & AI enthusiast</div>
+            <div class="t-line"><span class="t-prompt">$ </span><span class="t-cmd">cat contact.json</span></div>
+            <div class="t-line t-output">{</div>
+            <div class="t-line t-output">&nbsp;&nbsp;"email": "rahulrajsingh.work.15072005@gmail.com",</div>
+            <div class="t-line t-output">&nbsp;&nbsp;"phone": "+91 89256 95503",</div>
+            <div class="t-line t-output">&nbsp;&nbsp;"linkedin": "linkedin.com/in/rahul-raj-singh-57442a3b3",</div>
+            <div class="t-line t-output">&nbsp;&nbsp;"github": "github.com/rahulrajsinghwork15072005-a11y",</div>
+            <div class="t-line t-output">&nbsp;&nbsp;"status": "⚡ AVAILABLE",</div>
+            <div class="t-line t-output">&nbsp;&nbsp;"response_time": "< 24 hours"</div>
+            <div class="t-line t-output">}</div>
+            <div class="t-line t-blink"><span class="t-prompt">$ </span><span class="t-cursor">█</span></div>
+          </div>
+        </div>
+
+        <div class="contact-links">
+          <a href="mailto:rahulrajsingh.work.15072005@gmail.com" class="contact-link email-link">
+            <span class="cl-icon">📧</span>
+            <span class="cl-label">Email</span>
+            <span class="cl-value">rahulrajsingh.work.15072005@gmail.com</span>
+          </a>
+          <a href="tel:+918925695503" class="contact-link">
+            <span class="cl-icon">📞</span>
+            <span class="cl-label">Phone</span>
+            <span class="cl-value">+91 89256 95503</span>
+          </a>
+          <a href="https://linkedin.com/in/rahul-raj-singh-57442a3b3" target="_blank" class="contact-link">
+            <span class="cl-icon">💼</span>
+            <span class="cl-label">LinkedIn</span>
+            <span class="cl-value">linkedin.com/in/rahul-raj-singh</span>
+          </a>
+          <a href="https://github.com/rahulrajsinghwork15072005-a11y" target="_blank" class="contact-link">
+            <span class="cl-icon">🐙</span>
+            <span class="cl-label">GitHub</span>
+            <span class="cl-value">github.com/rahulrajsingh</span>
+          </a>
+        </div>
+
+        <div class="availability-card">
+          <div class="avail-title">📅 Availability</div>
+          <div class="avail-grid">
+            <div class="avail-item open">✅ Internships</div>
+            <div class="avail-item open">✅ Entry‑level roles</div>
+            <div class="avail-item open">✅ Freelance data work</div>
+            <div class="avail-item open">✅ Open Source collab</div>
+            <div class="avail-item">🕐 Consulting (limited)</div>
+            <div class="avail-item">🕐 Speaking (reach out)</div>
+          </div>
+        </div>
+
+        <div class="contact-form-section">
+          <h3 class="section-h3">💬 Send a Quick Message</h3>
+          <div class="cf-field">
+            <label class="cf-label">Your Name</label>
+            <input type="text" class="cf-input" placeholder="Adventurer from Dev Village" />
+          </div>
+          <div class="cf-field">
+            <label class="cf-label">Message</label>
+            <textarea class="cf-input cf-textarea" placeholder="I want to hire you / collaborate / say hi!"></textarea>
+          </div>
+          <button class="cf-submit" onclick="sendMessage()">
+            <span>⚡ Send Message</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXPERIENCE -->
+  <div id="modal-experience" class="section-modal-overlay">
+    <div class="section-modal section-experience">
+      <button class="section-modal-close" data-modal="experience">✕</button>
+      <div class="section-modal-header">
+        <div class="section-icon-wrap exp-icon">🏛️</div>
+        <div>
+          <div class="section-modal-title">Experience Hall</div>
+          <div class="section-modal-subtitle">Where I've Fought & Won</div>
+        </div>
+      </div>
+      <div class="section-modal-body">
+        <div class="exp-cards">
+          <!-- Havoltz -->
+          <div class="exp-card current">
+            <div class="exp-header">
+              <div class="exp-logo" style="background:#1e3a5f">H</div>
+              <div class="exp-info">
+                <span class="exp-company">Havoltz</span>
+                <span class="exp-role">Tech Lead (AI Robotics)</span>
+                <span class="exp-period">Sep 2025 – May 2026</span>
+              </div>
+              <span class="exp-badge current-badge">CURRENT</span>
+            </div>
+            <ul class="exp-achievements">
+              <li>🤖 Led 6‑engineer team building AI‑powered line‑following robots</li>
+              <li>📊 Sensor fusion & OpenCV simulation cut tuning time 40%</li>
+              <li>📈 Dashboards for lap times & sensor drift</li>
+            </ul>
+            <div class="exp-tech"><span>C++</span><span>Python</span><span>OpenCV</span><span>Embedded ML</span></div>
+          </div>
+          <!-- Senior DA Intern -->
+          <div class="exp-card">
+            <div class="exp-header">
+              <div class="exp-logo" style="background:#7c3aed">E</div>
+              <div class="exp-info">
+                <span class="exp-company">E‑Search Advisors</span>
+                <span class="exp-role">Senior Data Analyst Intern</span>
+                <span class="exp-period">May 2025 – Aug 2025</span>
+              </div>
+            </div>
+            <ul class="exp-achievements">
+              <li>📈 28% organic traffic boost through SEO analysis</li>
+              <li>📊 Dashboards (Looker Studio) cut reporting time 75%</li>
+              <li>🧪 A/B testing & regression, 20% engagement increase</li>
+            </ul>
+            <div class="exp-tech"><span>Python</span><span>Looker Studio</span><span>scikit-learn</span><span>GA4</span></div>
+          </div>
+          <!-- DAO Club -->
+          <div class="exp-card">
+            <div class="exp-header">
+              <div class="exp-logo" style="background:#0891b2">D</div>
+              <div class="exp-info">
+                <span class="exp-company">DAO Club</span>
+                <span class="exp-role">Management & Data Strategy Lead</span>
+                <span class="exp-period">Sep 2024 – Present</span>
+              </div>
+            </div>
+            <ul class="exp-achievements">
+              <li>👥 150+ members, 45% engagement lift via analytics</li>
+              <li>📉 Dashboard for budget & resource tracking</li>
+              <li>📊 Sentiment analysis for event feedback</li>
+            </ul>
+            <div class="exp-tech"><span>Looker</span><span>Excel</span><span>Strategy</span></div>
+          </div>
+          <!-- Junior DA Intern -->
+          <div class="exp-card">
+            <div class="exp-header">
+              <div class="exp-logo" style="background:#059669">E</div>
+              <div class="exp-info">
+                <span class="exp-company">E‑Search Advisors</span>
+                <span class="exp-role">Junior Data Analyst Intern</span>
+                <span class="exp-period">May 2024 – Aug 2024</span>
+              </div>
+            </div>
+            <ul class="exp-achievements">
+              <li>🧹 Cleaned & standardised data from 5+ sources</li>
+              <li>⏱ Reduced processing time 25% with Excel macros</li>
+              <li>🔍 Outlier detection (IQR) improved data quality 15%</li>
+            </ul>
+            <div class="exp-tech"><span>Excel</span><span>Python</span><span>ETL</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EDUCATION / LIBRARY -->
+  <div id="modal-education" class="section-modal-overlay">
+    <div class="section-modal section-education">
+      <button class="section-modal-close" data-modal="education">✕</button>
+      <div class="section-modal-header">
+        <div class="section-icon-wrap edu-icon">📚</div>
+        <div>
+          <div class="section-modal-title">The Library</div>
+          <div class="section-modal-subtitle">Knowledge Unlocked</div>
+        </div>
+      </div>
+      <div class="section-modal-body">
+        <div class="edu-cards">
+          <div class="edu-card">
+            <div class="edu-icon-big">🎓</div>
+            <div class="edu-info">
+              <span class="edu-degree">BTech Computer Science & Engineering</span>
+              <span class="edu-school">Vellore Institute of Technology (VIT) Chennai</span>
+              <span class="edu-period">2023 – 2027 · Graduating May 2027</span>
+              <div class="edu-honors">
+                <span>Relevant: DSA, DBMS, ML, Stats, Cloud</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="certs-section">
+          <h3 class="section-h3">🏅 School Academics</h3>
+          <div class="certs-grid">
+            <div class="cert-card">
+              <span class="cert-icon">🏫</span>
+              <span class="cert-name">Class XII (AISSCE) — GT Aloha Vidya Mandir</span>
+              <span class="cert-year">90.2%</span>
+            </div>
+            <div class="cert-card">
+              <span class="cert-icon">📘</span>
+              <span class="cert-name">Class X (AISSE) — St. John's Universal School</span>
+              <span class="cert-year">94.2%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="reading-section">
+          <h3 class="section-h3">📖 Currently Exploring</h3>
+          <div class="book-list">
+            <div class="book-item">
+              <span class="book-icon">📘</span>
+              <span class="book-title">Designing Data‑Intensive Applications — Kleppmann</span>
+            </div>
+            <div class="book-item">
+              <span class="book-icon">📗</span>
+              <span class="book-title">The Pragmatic Programmer — Hunt & Thomas</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOG / TAVERN -->
+  <div id="modal-blog" class="section-modal-overlay">
+    <div class="section-modal section-blog">
+      <button class="section-modal-close" data-modal="blog">✕</button>
+      <div class="section-modal-header">
+        <div class="section-icon-wrap blog-icon">🍺</div>
+        <div>
+          <div class="section-modal-title">The Dev Tavern</div>
+          <div class="section-modal-subtitle">Stories, Guides & Hot Takes</div>
+        </div>
+      </div>
+      <div class="section-modal-body">
+        <div class="blog-stats">
+          <span>📝 Soon</span>
+          <span>👁 0 readers (yet)</span>
+          <span>❤️ First post in progress</span>
+        </div>
+
+        <div class="blog-posts">
+          <div class="blog-post featured-post">
+            <div class="post-meta">
+              <span class="post-cat trending">🔥 Coming Soon</span>
+              <span class="post-date">TBD</span>
+              <span class="post-read">5 min read</span>
+            </div>
+            <div class="post-title">Building a Compiler Visualiser: A Student's Journey</div>
+            <div class="post-tags"><span>#Compilers</span><span>#JavaScript</span><span>#Education</span></div>
+          </div>
+          <div class="blog-post">
+            <div class="post-meta">
+              <span class="post-cat">Data</span>
+              <span class="post-date">TBD</span>
+              <span class="post-read">4 min read</span>
+            </div>
+            <div class="post-title">From Excel to Python: My Data Analysis Evolution</div>
+            <div class="post-tags"><span>#Python</span><span>#Excel</span><span>#Data</span></div>
+          </div>
+        </div>
+
+        <div class="newsletter-cta">
+          <span class="nl-icon">📬</span>
+          <div class="nl-text">
+            <strong>Subscribe to the Dev Dispatch</strong>
+            <span>Weekly deep‑dives on data, AI, and web dev.</span>
+          </div>
+          <button class="nl-btn" onclick="subscribeNewsletter()">Subscribe →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!--  CLASSIC MODALS (Quest / Inventory / Pause / Quiz)    -->
+  <!-- ══════════════════════════════════════════════════════ -->
+
+  <div id="quest-modal" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-title">📜 Quest Log</div>
+      <button class="modal-close" data-target="quest">✕</button>
+      <div id="quest-list"></div>
+      <div class="modal-hint">Press [Q] or click ✕ to close</div>
+    </div>
+  </div>
+
+  <div id="inv-modal" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-title">🎒 Inventory</div>
+      <button class="modal-close" data-target="inv">✕</button>
+      <div class="modal-hint">Walk over items to collect! Max 12 slots.</div>
+      <div id="inventory-grid"></div>
+      <div class="modal-hint" style="margin-top:14px">Press [I] or click ✕ to close</div>
+    </div>
+  </div>
+
+  <div id="pause-modal" class="modal-overlay">
+    <div class="modal-box" style="min-width:min(320px,88vw)">
+      <div class="modal-title">⏸ Paused</div>
+      <button id="btn-resume"   class="pause-btn">▶ Resume</button>
+      <button id="btn-save"     class="pause-btn">💾 Save Game</button>
+      <button id="btn-load"     class="pause-btn">📂 Load Game</button>
+      <button id="btn-controls" class="pause-btn">🎮 Controls</button>
+      <div class="modal-hint" style="margin-top:12px">Press [ESC] to resume</div>
+    </div>
+  </div>
+
+  <div id="quiz-modal" class="modal-overlay">
+    <div class="modal-box" id="quiz-inner">
+      <div class="modal-title">🐛 Bug Squasher Quiz</div>
+      <div class="modal-hint" style="margin-bottom:14px">Score 2/3 to earn the Python Badge!</div>
+      <div id="quiz-content"></div>
+    </div>
+  </div>
+
+  <!-- World Map Modal -->
+  <div id="map-modal" class="modal-overlay">
+    <div class="modal-box" style="max-width:min(700px,95vw)">
+      <div class="modal-title">🗺️ World Map — Dev Village XL</div>
+      <button class="modal-close" data-target="map">✕</button>
+      <canvas id="worldMapCanvas" width="600" height="500" style="width:100%;border:2px solid var(--border)"></canvas>
+      <div class="modal-hint" style="margin-top:10px">Press [M] to toggle</div>
+    </div>
+  </div>
+
+</div><!-- /#game-wrapper -->
+
+<script src="rpg.js"></script>
+</body>
+</html>
