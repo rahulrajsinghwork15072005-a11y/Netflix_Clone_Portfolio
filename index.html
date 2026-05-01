@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rahul Raj Singh</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     SCROLL PROGRESS BAR
+══════════════════════════════════════════ -->
+<div id="scroll-progress" class="scroll-progress hidden"></div>
+
+<!-- ══════════════════════════════════════════
+     PARTICLE CANVAS
+══════════════════════════════════════════ -->
+<canvas id="particle-canvas" class="hidden"></canvas>
+
+<!-- ══════════════════════════════════════════
+     CUSTOM CURSOR
+══════════════════════════════════════════ -->
+<div id="custom-cursor" class="custom-cursor"></div>
+
+<!-- ══════════════════════════════════════════
+     INTRO SCREEN
+══════════════════════════════════════════ -->
+<div id="intro-screen">
+  <div class="intro-bg-grid"></div>
+  <div id="intro-text-wrap">
+    <div class="intro-hint">click to enter</div>
+    <h1 id="intro-title">RAHUL RAJ SINGH</h1>
+    <div class="intro-tagline">DEVELOPER · DESIGNER · DREAMER</div>
+  </div>
+  <div class="intro-corner tl"></div><div class="intro-corner tr"></div>
+  <div class="intro-corner bl"></div><div class="intro-corner br"></div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PROFILE SCREEN
+══════════════════════════════════════════ -->
+<div id="profile-screen" class="hidden">
+  <div class="profile-bg-noise"></div>
+  <h2 class="profile-heading">Who's Watching?</h2>
+  <div class="profiles-grid">
+
+    <div class="profile-card" data-profile="recruiter" onclick="selectProfile(this)">
+      <div class="profile-avatar recruiter-avatar">
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="60" cy="60" r="60" fill="#1565C0"/>
+          <circle cx="60" cy="45" r="18" fill="#90CAF9"/>
+          <path d="M20 110 Q20 75 60 75 Q100 75 100 110" fill="#42A5F5"/>
+          <polygon points="60,65 54,80 60,85 66,80" fill="#1565C0"/>
+          <rect x="38" y="40" width="16" height="10" rx="5" fill="none" stroke="#E3F2FD" stroke-width="2"/>
+          <rect x="66" y="40" width="16" height="10" rx="5" fill="none" stroke="#E3F2FD" stroke-width="2"/>
+          <line x1="54" y1="44" x2="66" y2="44" stroke="#E3F2FD" stroke-width="2"/>
+          <line x1="30" y1="55" x2="25" y2="50" stroke="#90CAF9" stroke-width="1.5" opacity="0.7"/>
+          <line x1="90" y1="55" x2="95" y2="50" stroke="#90CAF9" stroke-width="1.5" opacity="0.7"/>
+        </svg>
+      </div>
+      <span class="profile-name">Recruiter</span>
+      <span class="profile-sub">Looking for talent</span>
+    </div>
+
+    <div class="profile-card" data-profile="stalker" onclick="selectProfile(this)">
+      <div class="profile-avatar stalker-avatar">
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="60" cy="60" r="60" fill="#B71C1C"/>
+          <circle cx="60" cy="45" r="18" fill="#EF9A9A"/>
+          <path d="M20 110 Q20 75 60 75 Q100 75 100 110" fill="#EF5350"/>
+          <rect x="35" y="39" width="20" height="11" rx="5" fill="#1a1a1a"/>
+          <rect x="65" y="39" width="20" height="11" rx="5" fill="#1a1a1a"/>
+          <line x1="55" y1="44" x2="65" y2="44" stroke="#1a1a1a" stroke-width="2"/>
+          <line x1="28" y1="50" x2="22" y2="46" stroke="#EF9A9A" stroke-width="1.5" opacity="0.7"/>
+          <line x1="92" y1="50" x2="98" y2="46" stroke="#EF9A9A" stroke-width="1.5" opacity="0.7"/>
+          <circle cx="88" cy="88" r="9" fill="none" stroke="#FFCDD2" stroke-width="2.5"/>
+          <line x1="94" y1="94" x2="102" y2="102" stroke="#FFCDD2" stroke-width="2.5"/>
+        </svg>
+      </div>
+      <span class="profile-name">Stalker</span>
+      <span class="profile-sub">Just curious</span>
+    </div>
+
+    <div class="profile-card featured" data-profile="know-me" onclick="selectProfile(this)">
+      <div class="profile-avatar know-avatar">
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="60" cy="60" r="60" fill="#E65100"/>
+          <circle cx="60" cy="45" r="18" fill="#FFD54F"/>
+          <path d="M20 110 Q20 75 60 75 Q100 75 100 110" fill="#FFA726"/>
+          <polygon points="46,40 48,45 53,45 49,48 51,53 46,50 41,53 43,48 39,45 44,45" fill="#FF6F00" opacity="0.9"/>
+          <polygon points="74,40 76,45 81,45 77,48 79,53 74,50 69,53 71,48 67,45 72,45" fill="#FF6F00" opacity="0.9"/>
+          <path d="M48 57 Q60 66 72 57" fill="none" stroke="#FF6F00" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="26" y1="48" x2="20" y2="44" stroke="#FFD54F" stroke-width="1.5" opacity="0.8"/>
+          <line x1="94" y1="48" x2="100" y2="44" stroke="#FFD54F" stroke-width="1.5" opacity="0.8"/>
+          <line x1="22" y1="60" x2="15" y2="57" stroke="#FFD54F" stroke-width="1.5" opacity="0.8"/>
+          <line x1="98" y1="60" x2="105" y2="57" stroke="#FFD54F" stroke-width="1.5" opacity="0.8"/>
+          <polygon points="40,26 45,18 52,25 60,15 68,25 75,18 80,26" fill="#FFD700" stroke="#FF6F00" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <span class="profile-name">KNOW ME</span>
+      <span class="profile-sub">The full experience</span>
+      <div class="featured-badge">✦ RECOMMENDED</div>
+    </div>
+
+  </div>
+  <div class="manage-profiles">+ Choose one Profiles</div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     STALKER SITE (RPG Portfolio)
+══════════════════════════════════════════ -->
+<div id="stalker-site" class="hidden" style="position:fixed; inset:0; z-index:1000; background:#08090f;">
+  <iframe src="rpg/rpg.html" style="width:100%; height:100%; border:none; display:block;"></iframe>
+  <button class="rpg-back-btn" onclick="backToProfiles()">⇄ Back to profiles</button>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PROFESSIONAL SITE (Recruiter)
+══════════════════════════════════════════ -->
+<div id="pro-site" class="hidden">
+
+  <nav id="pro-navbar">
+    <div class="pro-nav-logo">RRS<span class="pro-dot">.</span></div>
+    <ul class="pro-nav-links">
+      <li><a href="#pro-home"     class="pro-nav-link active">Home</a></li>
+      <li><a href="#pro-about"    class="pro-nav-link">About</a></li>
+      <li><a href="#pro-skills"   class="pro-nav-link">Skills</a></li>
+      <li><a href="#pro-projects" class="pro-nav-link">Projects</a></li>
+      <li><a href="#pro-cv"       class="pro-nav-link">Resume</a></li>
+      <li><a href="#pro-contact"  class="pro-nav-link">Contact</a></li>
+    </ul>
+    <button class="pro-switch-btn" onclick="backToProfiles()">⇄ Switch Profile</button>
+  </nav>
+
+  <!-- PRO HERO -->
+  <section id="pro-home" class="pro-hero">
+    <div class="pro-hero-left">
+      <p class="pro-eyebrow">Data Analyst & AI Enthusiast</p>
+      <h1 class="pro-hero-name">Rahul<br/>Raj Singh</h1>
+      <p class="pro-hero-bio">I'm a BTech CS student at VIT Chennai with hands-on experience in data analysis, Python automation, and embedded systems. I turn messy data into clear insights and build things that work end-to-end.</p>
+      <div class="pro-hero-btns">
+        <button class="pro-btn-primary" onclick="document.getElementById('pro-projects').scrollIntoView({behavior:'smooth'})">View Projects</button>
+        <button class="pro-btn-outline" onclick="triggerCVDownload()">Download Resume</button>
+      </div>
+      <div class="pro-availability"><span class="pro-avail-dot"></span> Open to internships & entry‑level roles</div>
+    </div>
+    <div class="pro-hero-right">
+      <div class="pro-photo-frame">
+        <div class="pro-photo-inner">
+          <span class="pro-initials">RRS</span>
+          <span class="pro-photo-hint">[ Your Photo ]</span>
+        </div>
+      </div>
+      <div class="pro-hero-card card1">
+        <div class="phc-icon">⚡</div>
+        <div><div class="phc-val">3+ Years</div><div class="phc-lbl">Coding</div></div>
+      </div>
+      <div class="pro-hero-card card2">
+        <div class="phc-icon">📦</div>
+        <div><div class="phc-val">10+ Projects</div><div class="phc-lbl">Delivered</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRO ABOUT -->
+  <section id="pro-about" class="pro-section">
+    <div class="pro-section-inner">
+      <div class="pro-tag-label">About Me</div>
+      <div class="pro-about-grid">
+        <div class="pro-about-text">
+          <h2 class="pro-section-h2">Turning data into<br/><span class="pro-accent">reliable insights</span></h2>
+          <p>I'm a CS student at VIT Chennai with practical experience in data analytics, Python automation, and embedded systems. I've completed two data analytics internships and led an AI robotics team.</p>
+          <p>I'm passionate about data engineering, machine learning, and building interactive tools that make complex information understandable.</p>
+          <div class="pro-info-grid">
+            <div class="pro-info-item"><span class="pi-label">Location</span><span class="pi-val">Chennai, India</span></div>
+            <div class="pro-info-item"><span class="pi-label">Education</span><span class="pi-val">B.Tech CSE @ VIT Chennai</span></div>
+            <div class="pro-info-item"><span class="pi-label">Languages</span><span class="pi-val">English, Hindi</span></div>
+            <div class="pro-info-item"><span class="pi-label">Interests</span><span class="pi-val">Music, Sports, Films</span></div>
+          </div>
+        </div>
+        <div class="pro-about-side">
+          <div class="pro-stat-card"><span class="psc-n">3+</span><span class="psc-l">Years Coding Experience</span></div>
+          <div class="pro-stat-card"><span class="psc-n">10+</span><span class="psc-l">Projects Shipped</span></div>
+          <div class="pro-stat-card"><span class="psc-n">5+</span><span class="psc-l">Core Technologies</span></div>
+          <div class="pro-stat-card"><span class="psc-n">92%</span><span class="psc-l">SVM Accuracy (Braille)</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRO SKILLS -->
+  <section id="pro-skills" class="pro-section pro-section-alt">
+    <div class="pro-section-inner">
+      <div class="pro-tag-label">Technical Skills</div>
+      <h2 class="pro-section-h2">What I <span class="pro-accent">Work With</span></h2>
+      <div class="pro-skills-grid">
+        <div class="pro-skill-group">
+          <h3 class="psg-title">Languages</h3>
+          <div class="pro-skill-bars">
+            <div class="psb-item"><span>Python</span><div class="psb-track"><div class="psb-fill" style="--w:92%"></div></div></div>
+            <div class="psb-item"><span>C / C++</span><div class="psb-track"><div class="psb-fill" style="--w:85%"></div></div></div>
+            <div class="psb-item"><span>SQL</span><div class="psb-track"><div class="psb-fill" style="--w:88%"></div></div></div>
+          </div>
+        </div>
+        <div class="pro-skill-group">
+          <h3 class="psg-title">Data & Analytics</h3>
+          <div class="pro-skill-bars">
+            <div class="psb-item"><span>pandas / NumPy</span><div class="psb-track"><div class="psb-fill" style="--w:90%"></div></div></div>
+            <div class="psb-item"><span>scikit-learn</span><div class="psb-track"><div class="psb-fill" style="--w:82%"></div></div></div>
+            <div class="psb-item"><span>Power BI / Looker</span><div class="psb-track"><div class="psb-fill" style="--w:78%"></div></div></div>
+          </div>
+        </div>
+        <div class="pro-skill-group">
+          <h3 class="psg-title">Tools & Platforms</h3>
+          <div class="pro-skill-bars">
+            <div class="psb-item"><span>Git / GitHub</span><div class="psb-track"><div class="psb-fill" style="--w:88%"></div></div></div>
+            <div class="psb-item"><span>VS Code / Jupyter</span><div class="psb-track"><div class="psb-fill" style="--w:90%"></div></div></div>
+            <div class="psb-item"><span>Docker / AWS</span><div class="psb-track"><div class="psb-fill" style="--w:70%"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRO PROJECTS -->
+     <!-- PRO PROJECTS (all 10) -->
+  <section id="pro-projects" class="pro-section">
+    <div class="pro-section-inner">
+      <div class="pro-tag-label">Selected Work</div>
+      <h2 class="pro-section-h2">Projects &amp; <span class="pro-accent">Case Studies</span></h2>
+      <div class="pro-projects-list">
+
+        <!-- 01 Compiler Visualizer -->
+        <div class="pro-proj-card" onclick="openProProjectModal('proj1')">
+          <div class="ppc-left">
+            <div class="ppc-img-placeholder">⚙️</div>
+            <div class="ppc-hover-reveal">
+              <span>6 parsing algorithms with step-by-step visualization, TAC, and x86 assembly output.</span>
+              <span class="reveal-link">View Details →</span>
+            </div>
+          </div>
+          <div class="ppc-right">
+            <div class="ppc-meta"><span class="ppc-num">01</span><span class="ppc-type">Compiler</span></div>
+            <h3 class="ppc-title">Compiler Visualizer</h3>
+            <p class="ppc-desc">Interactive tool that visualizes LL(1), LR(0), SLR, LALR, CLR, and Operator Precedence parsers. Generates TAC and x86 assembly.</p>
+            <div class="ppc-stack"><span>JavaScript</span><span>HTML/CSS</span><span>LL/LR Parsing</span></div>
+            <span class="ppc-link">Read Case Study →</span>
+          </div>
+        </div>
+
+        <!-- 02 OS Visualizer -->
+        <div class="pro-proj-card" onclick="openProProjectModal('proj2')">
+          <div class="ppc-left">
+            <div class="ppc-img-placeholder">🖥️</div>
+            <div class="ppc-hover-reveal">
+              <span>Full OS simulator with CPU scheduling, deadlock, disk scheduling, paging, and IPC.</span>
+              <span class="reveal-link">View Details →</span>
+            </div>
+          </div>
+          <div class="ppc-right">
+            <div class="ppc-meta"><span class="ppc-num">02</span><span class="ppc-type">Simulator</span></div>
+            <h3 class="ppc-title">Ultimate OS Visualizer – Y2K Edition</h3>
+            <p class="ppc-desc">Retro OS lab with 15+ algorithms, animated charts, and real-time execution — built with vanilla JS.</p>
+            <div class="ppc-stack"><span>JavaScript</span><span>Canvas API</span><span>Chart.js</span></div>
+            <span class="ppc-link">Read Case Study →</span>
+          </div>
+        </div>
+
+        <!-- 03 WikiBoard -->
+        <div class="pro-proj-card" onclick="openProProjectModal('proj3')">
+          <div class="ppc-left">
+            <div class="ppc-img-placeholder">📋</div>
+            <div class="ppc-hover-reveal">
+              <span>Infinite canvas for Wikipedia articles — drag, connect, annotate, and export.</span>
+              <span class="reveal-link">View Details →</span>
+            </div>
+          </div>
+          <div class="ppc-right">
+            <div class="ppc-meta"><span class="ppc-num">03</span><span class="ppc-type">Research Tool</span></div>
+            <h3 class="ppc-title">WikiBoard</h3>
+            <p class="ppc-desc">Spatial knowledge canvas: drop articles, draw connections, sticky notes, minimap, JSON export.</p>
+            <div class="ppc-stack"><span>JavaScript</span><span>Wikipedia API</span><span>SVG</span></div>
+            <span class="ppc-link">Read Case Study →</span>
+          </div>
+        </div>
+
+        <!-- 04 WebOS XP -->
+        <div class="pro-proj-card" onclick="openProProjectModal('proj4')">
+          <div class="ppc-left">
+            <div class="ppc-img-placeholder">🪟</div>
+            <div class="ppc-hover-reveal">
+              <span>Windows XP desktop in the browser — 15+ apps, 9 games, virtual file system.</span>
+              <span class="reveal-link">View Details →</span>
+            </div>
+          </div>
+          <div class="ppc-right">
+            <div class="ppc-meta"><span class="ppc-num">04</span><span class="ppc-type">Web OS</span></div>
+            <h3 class="ppc-title">WebOS XP</h3>
+            <p class="ppc-desc">Fully interactive XP environment with CLI, draggable windows, Paint, and Snake — all vanilla JS.</p>
+            <div class="ppc-stack"><span>JavaScript</span><span>Canvas</span><span>localStorage</span></div>
+            <span class="ppc-link">Read Case Study →</span>
+          </div>
+        </div>
+
+        <!-- 05 Anfield Echo -->
+        <div class="pro-proj-card" onclick="openProProjectModal('proj5')">
+          <div class="ppc-left">
+            <div class="ppc-img-placeholder">🔴</div>
+            <div class="ppc-hover-reveal">
+              <span>Premium LFC fan site with cinematic scroll-telling, horizontal gallery, and dark/light themes.</span>
+              <span class="reveal-link">View Details →</span>
+            </div>
+          </div>
+          <div class="ppc-right">
+            <div class="ppc-meta"><span class="ppc-num">05</span><span class="ppc-type">Fan Blog</span></div>
+            <h3 class="ppc-title">Anfield Echo</h3>
+            <p class="ppc-desc">A love letter to Liverpool FC, disguised as a premium digital magazine. Built with vanilla HTML, CSS & JS.</p>
+            <div class="ppc-stack"><span>HTML5</span><span>CSS3</span><span>JavaScript</span></div>
+            <span class="ppc-link">Read Case Study →</span>
+          </div>
+        </div>
+
+        <!-- 06 Mockly -->
+        <div class="pro-proj-card" onclick="openProProjectModal('proj6')">
+          <div class="ppc-left">
+            <div class="ppc-img-placeholder">💬</div>
+            <div class="ppc-hover-reveal">
+              <span>Generate pixel‑perfect chat screenshots for 8 platforms — no frameworks.</span>
+              <span class="reveal-link">View Details →</span>
+            </div>
+          </div>
+          <div class="ppc-right">
+            <div class="ppc-meta"><span class="ppc-num">06</span><span class="ppc-type">Mockup Tool</span></div>
+            <h3 class="ppc-title">Mockly</h3>
+            <p class="ppc-desc">Create realistic chat conversations for WhatsApp, iMessage, Discord, and more. One‑click PNG export.</p>
+            <div class="ppc-stack"><span>JavaScript</span><span>html2canvas</span><span>CSS</span></div>
+            <span class="ppc-link">Read Case Study →</span>
+          </div>
+        </div>
+
+        <!-- 07 MakeNotes -->
+        <div class="pro-proj-card" onclick="openProProjectModal('proj7')">
+          <div class="ppc-left">
+            <div class="ppc-img-placeholder">📝</div>
+            <div class="ppc-hover-reveal">
+              <span>Spatial note‑taking canvas with rich‑text, connections, offline PWA, multiple export formats.</span>
+              <span class="reveal-link">View Details →</span>
+            </div>
+          </div>
+          <div class="ppc-right">
+            <div class="ppc-meta"><span class="ppc-num">07</span><span class="ppc-type">PWA</span></div>
+            <h3 class="ppc-title">MakeNotes</h3>
+            <p class="ppc-desc">Free‑form spatial note‑taking app. Drag cards, draw connections, add sticky notes — works offline.</p>
+            <div class="ppc-stack"><span>PWA</span><span>Service Worker</span><span>Canvas</span></div>
+            <span class="ppc-link">Read Case Study →</span>
+          </div>
+        </div>
+
+        <!-- 08 Dev Village XL -->
+        <div class="pro-proj-card" onclick="openProProjectModal('proj8')">
+          <div class="ppc-left">
+            <div class="ppc-img-placeholder">🗺️</div>
+            <div class="ppc-hover-reveal">
+              <span>This very portfolio — a 60×60 RPG world built with vanilla JS.</span>
+              <span class="reveal-link">View Details →</span>
+            </div>
+          </div>
+          <div class="ppc-right">
+            <div class="ppc-meta"><span class="ppc-num">08</span><span class="ppc-type">RPG / Game</span></div>
+            <h3 class="ppc-title">Dev Village XL</h3>
+            <p class="ppc-desc">Interactive RPG portfolio with 7 buildings, 9 NPCs, quests, weather, and day/night cycle.</p>
+            <div class="ppc-stack"><span>Canvas</span><span>Web Audio</span><span>Game Loop</span></div>
+            <span class="ppc-link">Read Case Study →</span>
+          </div>
+        </div>
+
+        <!-- 09 Braille Device -->
+        <div class="pro-proj-card" onclick="openProProjectModal('proj9')">
+          <div class="ppc-left">
+            <div class="ppc-img-placeholder">♿</div>
+            <div class="ppc-hover-reveal">
+              <span>Raspberry Pi + OpenCV + SVM — 92% character accuracy, refreshable Braille cells.</span>
+              <span class="reveal-link">View Details →</span>
+            </div>
+          </div>
+          <div class="ppc-right">
+            <div class="ppc-meta"><span class="ppc-num">09</span><span class="ppc-type">Hardware / AI</span></div>
+            <h3 class="ppc-title">Text-to-Braille System</h3>
+            <p class="ppc-desc">Portable assistive device that captures printed text and converts it to Braille in real time.</p>
+            <div class="ppc-stack"><span>Python</span><span>OpenCV</span><span>SVM</span></div>
+            <span class="ppc-link">Read Case Study →</span>
+          </div>
+        </div>
+
+        <!-- 10 Yellove Echo -->
+        <div class="pro-proj-card" onclick="openProProjectModal('proj10')">
+          <div class="ppc-left">
+            <div class="ppc-img-placeholder">💛</div>
+            <div class="ppc-hover-reveal">
+              <span>CSK fan site with hand‑gesture navigation, horizontal gallery, modern CSS magic.</span>
+              <span class="reveal-link">View Details →</span>
+            </div>
+          </div>
+          <div class="ppc-right">
+            <div class="ppc-meta"><span class="ppc-num">10</span><span class="ppc-type">Fan Blog</span></div>
+            <h3 class="ppc-title">Yellove Echo</h3>
+            <p class="ppc-desc">Chennai Super Kings immersive fan experience with gesture control and scroll‑driven animations.</p>
+            <div class="ppc-stack"><span>CSS</span><span>MediaPipe</span><span>Gesture</span></div>
+            <span class="ppc-link">Read Case Study →</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- PRO RESUME -->
+  <section id="pro-cv" class="pro-section pro-section-alt">
+    <div class="pro-section-inner">
+      <div class="pro-tag-label">Resume</div>
+      <h2 class="pro-section-h2">Experience &amp; <span class="pro-accent">Education</span></h2>
+      <div class="pro-cv-grid">
+        <div>
+          <h3 class="pro-cv-col-head">Work Experience</h3>
+          <div class="pro-timeline">
+            <div class="pro-tl-item">
+              <div class="pro-tl-dot"></div>
+              <div class="pro-tl-body">
+                <div class="pro-tl-period">Sep 2025 – May 2026</div>
+                <div class="pro-tl-role">Tech Lead (AI Robotics)</div>
+                <div class="pro-tl-co">Havoltz · On-site</div>
+                <p class="pro-tl-desc">Led team of 6, built AI line-following robots, sensor fusion, OpenCV simulation — improved track completion by 34%.</p>
+              </div>
+            </div>
+            <div class="pro-tl-item">
+              <div class="pro-tl-dot"></div>
+              <div class="pro-tl-body">
+                <div class="pro-tl-period">May 2025 – Aug 2025</div>
+                <div class="pro-tl-role">Senior Data Analyst Intern</div>
+                <div class="pro-tl-co">E-Search Advisors · Remote</div>
+                <p class="pro-tl-desc">Boosted organic traffic 28%, built Looker Studio dashboards, A/B testing, mentored 3 juniors.</p>
+              </div>
+            </div>
+            <div class="pro-tl-item">
+              <div class="pro-tl-dot"></div>
+              <div class="pro-tl-body">
+                <div class="pro-tl-period">Sep 2024 – Present</div>
+                <div class="pro-tl-role">Management & Data Strategy Lead</div>
+                <div class="pro-tl-co">DAO Club · Hybrid</div>
+                <p class="pro-tl-desc">150+ member Web3 club — analytics dashboards, 45% engagement lift, event sentiment analysis.</p>
+              </div>
+            </div>
+            <div class="pro-tl-item">
+              <div class="pro-tl-dot"></div>
+              <div class="pro-tl-body">
+                <div class="pro-tl-period">May 2024 – Aug 2024</div>
+                <div class="pro-tl-role">Junior Data Analyst Intern</div>
+                <div class="pro-tl-co">E-Search Advisors · On-site</div>
+                <p class="pro-tl-desc">Data cleaning (Excel, Python), reduced processing time 25%, outlier detection with IQR.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h3 class="pro-cv-col-head">Education & Certifications</h3>
+          <div class="pro-timeline">
+            <div class="pro-tl-item">
+              <div class="pro-tl-dot accent"></div>
+              <div class="pro-tl-body">
+                <div class="pro-tl-period">2023 – 2027</div>
+                <div class="pro-tl-role">B.Tech in Computer Science</div>
+                <div class="pro-tl-co">Vellore Institute of Technology (VIT) Chennai</div>
+                <p class="pro-tl-desc">Relevant: DSA, DBMS, Machine Learning, Statistics, Cloud Computing</p>
+              </div>
+            </div>
+            <div class="pro-tl-item">
+              <div class="pro-tl-dot accent"></div>
+              <div class="pro-tl-body">
+                <div class="pro-tl-period">2023</div>
+                <div class="pro-tl-role">Class XII (AISSCE)</div>
+                <div class="pro-tl-co">GT Aloha Vidya Mandir · 90.2%</div>
+              </div>
+            </div>
+            <div class="pro-tl-item">
+              <div class="pro-tl-dot accent"></div>
+              <div class="pro-tl-body">
+                <div class="pro-tl-period">2021</div>
+                <div class="pro-tl-role">Class X (AISSE)</div>
+                <div class="pro-tl-co">St. John's Universal School · 94.2%</div>
+              </div>
+            </div>
+          </div>
+          <button class="pro-btn-primary" style="margin-top:2.5rem" onclick="triggerCVDownload()">↓ Download Full Resume (PDF)</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRO CONTACT -->
+  <section id="pro-contact" class="pro-section">
+    <div class="pro-section-inner pro-contact-inner">
+      <div class="pro-tag-label">Get In Touch</div>
+      <h2 class="pro-section-h2">Open to <span class="pro-accent">Opportunities</span></h2>
+      <p class="pro-contact-sub">Looking for data analyst / AI internships and entry‑level roles. Let's talk!</p>
+      <div class="pro-contact-grid">
+        <a href="mailto:rahulrajsingh.work.15072005@gmail.com" class="pro-contact-item">
+          <span class="pci-icon">✉</span>
+          <span class="pci-label">Email</span>
+          <span class="pci-val">rahulrajsingh.work.15072005@gmail.com</span>
+        </a>
+        <a href="tel:+918925695503" class="pro-contact-item">
+          <span class="pci-icon">📞</span>
+          <span class="pci-label">Phone</span>
+          <span class="pci-val">+91 89256 95503</span>
+        </a>
+        <a href="https://linkedin.com/in/rahul-raj-singh-57442a3b3" target="_blank" class="pro-contact-item">
+          <span class="pci-icon">in</span>
+          <span class="pci-label">LinkedIn</span>
+          <span class="pci-val">Rahul Raj Singh</span>
+        </a>
+        <a href="https://github.com/rahulrajsinghwork15072005-a11y" target="_blank" class="pro-contact-item">
+          <span class="pci-icon">⌥</span>
+          <span class="pci-label">GitHub</span>
+          <span class="pci-val">@rahulrajsingh</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="pro-footer">
+    <div class="pro-footer-logo">RRS<span class="pro-dot">.</span></div>
+    <p>Rahul Raj Singh · VIT Chennai · 2025</p>
+    <button class="pro-switch-btn" onclick="backToProfiles()">⇄ Switch Profile</button>
+  </footer>
+
+</div><!-- /pro-site -->
+
+
+<!-- ══════════════════════════════════════════
+     KNOW ME SITE
+══════════════════════════════════════════ -->
+<div id="know-site" class="hidden">
+
+  <nav id="know-navbar">
+    <div class="know-logo">RRS<span class="know-dot">.</span></div>
+    <div class="know-tabs-wrap">
+      <button class="know-tab active" onclick="switchKnowTab(this,'km-music')">🎵 Music</button>
+      <button class="know-tab"        onclick="switchKnowTab(this,'km-films')">🎬 Films</button>
+      <button class="know-tab"        onclick="switchKnowTab(this,'km-reading')">📚 Reading</button>
+      <button class="know-tab"        onclick="switchKnowTab(this,'km-sports')">🏆 Sports</button>
+      <button class="know-tab"        onclick="switchKnowTab(this,'km-blogs')">✍ Blogs</button>
+    </div>
+    <button class="know-switch-btn" onclick="backToProfiles()">⇄ Switch</button>
+  </nav>
+
+  <div class="km-hero-strip">
+    <div class="km-hero-text">
+      <h1 class="km-hero-name">Rahul Raj Singh</h1>
+      <p class="km-hero-sub">Developer by day · <span id="km-rotating-hobby">Music addict</span> by nature</p>
+    </div>
+    <div class="km-hero-links">
+      <a href="#" onclick="showProAndGo('pro-projects'); return false;">📁 My Work</a>
+      <a href="#" onclick="showProAndGo('pro-cv'); return false;">📄 Resume</a>
+    </div>
+  </div>
+
+  <!-- ─── MUSIC ─── -->
+  <div id="km-music" class="km-section active-section">
+    <div class="km-section-header">
+      <h2 class="km-section-title">🎵 Music</h2>
+      <p class="km-section-sub">What's always playing in my headphones</p>
+    </div>
+    <div class="km-subsection">
+      <div class="km-sub-head"><h3>Favourite Artists</h3></div>
+      <div class="km-tiles-grid">
+        <div class="km-tile" onclick="openTileDetail({emoji:'🎤',title:'Kendrick Lamar',sub:'Hip-Hop / West Coast',color:'#1DB954',body:'Known for intricate storytelling, dense lyricism, and genre-bending production. TPAB and DAMN are masterpieces.'})">
+          <div class="km-tile-img" style="background:linear-gradient(135deg,#1a1a2e,#16213e)"><span class="km-tile-initial">KL</span></div>
+          <div class="km-tile-name">Kendrick Lamar</div><div class="km-tile-sub">Hip-Hop</div>
+        </div>
+        <div class="km-tile" onclick="openTileDetail({emoji:'🎸',title:'Arctic Monkeys',sub:'Indie Rock / Sheffield',color:'#e63946',body:'From Sheffield with sarcasm and swagger. Every album reinvents their sound completely.'})">
+          <div class="km-tile-img" style="background:linear-gradient(135deg,#1a0a0a,#3d0000)"><span class="km-tile-initial">AM</span></div>
+          <div class="km-tile-name">Arctic Monkeys</div><div class="km-tile-sub">Indie Rock</div>
+        </div>
+        <div class="km-tile" onclick="openTileDetail({emoji:'🤖',title:'Daft Punk',sub:'Electronic / House',color:'#f4a261',body:'The robots who defined a generation. Random Access Memories is a perfect album.'})">
+          <div class="km-tile-img" style="background:linear-gradient(135deg,#0d0d1a,#1a1a3e)"><span class="km-tile-initial">DP</span></div>
+          <div class="km-tile-name">Daft Punk</div><div class="km-tile-sub">Electronic</div>
+        </div>
+      </div>
+    </div>
+    <div class="km-subsection">
+      <div class="km-sub-head"><h3>Favourite Songs</h3></div>
+      <div class="km-tiles-grid">
+        <div class="km-tile" onclick="openTileDetail({emoji:'♪',title:'HUMBLE.',sub:'Kendrick Lamar · DAMN.',color:'#1DB954',body:'A minimalist banger. The beat drops at the exact right moment. Pure confidence compressed into 3 minutes.'})">
+          <div class="km-tile-img" style="background:linear-gradient(135deg,#000,#1a1a1a)"><span class="km-tile-initial">♪</span></div>
+          <div class="km-tile-name">HUMBLE.</div><div class="km-tile-sub">Kendrick Lamar</div>
+        </div>
+        <div class="km-tile" onclick="openTileDetail({emoji:'♪',title:'R U Mine?',sub:'Arctic Monkeys · AM',color:'#e63946',body:'The riff that opened a thousand playlists. Instantly energising.'})">
+          <div class="km-tile-img" style="background:linear-gradient(135deg,#1a0000,#300000)"><span class="km-tile-initial">♪</span></div>
+          <div class="km-tile-name">R U Mine?</div><div class="km-tile-sub">Arctic Monkeys</div>
+        </div>
+        <div class="km-tile" onclick="openTileDetail({emoji:'♪',title:'Get Lucky',sub:'Daft Punk ft. Pharrell · RAM',color:'#f4a261',body:'The song that made 2013 eternal. A perfect groove, perfect verse, perfect chorus.'})">
+          <div class="km-tile-img" style="background:linear-gradient(135deg,#0d0d1a,#1a1a3e)"><span class="km-tile-initial">♪</span></div>
+          <div class="km-tile-name">Get Lucky</div><div class="km-tile-sub">Daft Punk</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── FILMS ─── -->
+  <div id="km-films" class="km-section">
+    <div class="km-section-header">
+      <h2 class="km-section-title">🎬 Films</h2>
+      <p class="km-section-sub">What I watch when I'm not writing code</p>
+    </div>
+    <div class="km-subsection">
+      <div class="km-sub-head"><h3>Favourite Directors</h3></div>
+      <div class="km-tiles-grid">
+        <div class="km-tile" onclick="openTileDetail({emoji:'🎬',title:'Christopher Nolan',sub:'Sci-Fi / Thriller',color:'#4361ee',body:'Master of non-linear narrative and IMAX spectacle. Inception changed how I think about story structure.'})">
+          <div class="km-tile-img" style="background:linear-gradient(135deg,#0a0a2e,#1a1a5e)"><span class="km-tile-initial">CN</span></div>
+          <div class="km-tile-name">Christopher Nolan</div><div class="km-tile-sub">Sci-Fi / Thriller</div>
+        </div>
+        <div class="km-tile" onclick="openTileDetail({emoji:'🎬',title:'Denis Villeneuve',sub:'Sci-Fi / Drama',color:'#f4a261',body:'Arrival and Blade Runner 2049 are visual poetry. Every frame is deliberate.'})">
+          <div class="km-tile-img" style="background:linear-gradient(135deg,#1a0d00,#3d2200)"><span class="km-tile-initial">DV</span></div>
+          <div class="km-tile-name">Denis Villeneuve</div><div class="km-tile-sub">Sci-Fi / Drama</div>
+        </div>
+        <div class="km-tile" onclick="openTileDetail({emoji:'🎬',title:'Quentin Tarantino',sub:'Crime / Drama',color:'#e63946',body:'Dialogue as a weapon. His characters talk like real people — messy, funny, threatening.'})">
+          <div class="km-tile-img" style="background:linear-gradient(135deg,#1a0000,#3d0000)"><span class="km-tile-initial">QT</span></div>
+          <div class="km-tile-name">Quentin Tarantino</div><div class="km-tile-sub">Crime / Drama</div>
+        </div>
+      </div>
+    </div>
+    <div class="km-subsection">
+      <div class="km-sub-head"><h3>Favourite Movies</h3></div>
+      <div class="km-tiles-grid">
+        <div class="km-tile" onclick="openTileDetail({emoji:'🪐',title:'Interstellar',sub:'2014 · Nolan',color:'#4361ee',body:'The film that made me cry thinking about time dilation. The docking scene is the most tense 5 minutes in cinema.'})">
+          <div class="km-tile-img" style="background:linear-gradient(135deg,#000510,#0a1628)"><span class="km-tile-initial">IS</span></div>
+          <div class="km-tile-name">Interstellar</div><div class="km-tile-sub">2014 · Nolan</div>
+        </div>
+        <div class="km-tile" onclick="openTileDetail({emoji:'💼',title:'Pulp Fiction',sub:'1994 · Tarantino',color:'#f4a261',body:'Non-linear storytelling as art form. The diner opening and closing changed cinema and still holds up 30 years later.'})">
+          <div class="km-tile-img" style="background:linear-gradient(135deg,#1a0800,#3d1500)"><span class="km-tile-initial">PF</span></div>
+          <div class="km-tile-name">Pulp Fiction</div><div class="km-tile-sub">1994 · Tarantino</div>
+        </div>
+        <div class="km-tile" onclick="openTileDetail({emoji:'🛸',title:'Arrival',sub:'2016 · Villeneuve',color:'#48cae4',body:'A film that reframes how you think about time and language. Devastating and beautiful.'})">
+          <div class="km-tile-img" style="background:linear-gradient(135deg,#001a1a,#003333)"><span class="km-tile-initial">AR</span></div>
+          <div class="km-tile-name">Arrival</div><div class="km-tile-sub">2016 · Villeneuve</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── READING ─── -->
+  <div id="km-reading" class="km-section">
+    <div class="km-section-header">
+      <h2 class="km-section-title">📚 Reading</h2>
+      <p class="km-section-sub">Books that shaped how I think and build</p>
+    </div>
+    <div class="km-subsection">
+      <div class="km-sub-head"><h3>Tech &amp; Programming</h3></div>
+      <div class="km-tiles-grid">
+        <div class="km-tile" onclick="openTileDetail({emoji:'💻',title:'Clean Code',sub:'Robert C. Martin',color:'#06d6a0',body:'Transformed how I write and review code. The chapter on meaningful names alone is worth the read.'})">
+          <div class="km-tile-img" style="background:linear-gradient(135deg,#001a0d,#003320)"><span class="km-tile-initial">CC</span></div>
+          <div class="km-tile-name">Clean Code</div><div class="km-tile-sub">Robert C. Martin</div>
+        </div>
+        <div class="km-tile" onclick="openTileDetail({emoji:'🔧',title:'The Pragmatic Programmer',sub:'Hunt & Thomas',color:'#4cc9f0',body:'Made me think about my career as a craft. The Broken Window Theory applied to codebases is something I think about every day.'})">
+          <div class="km-tile-img" style="background:linear-gradient(135deg,#001020,#001a30)"><span class="km-tile-initial">PP</span></div>
+          <div class="km-tile-name">The Pragmatic Programmer</div><div class="km-tile-sub">Hunt &amp; Thomas</div>
+        </div>
+        <div class="km-tile" onclick="openTileDetail({emoji:'🗄',title:'Designing Data-Intensive Apps',sub:'Martin Kleppmann',color:'#f72585',body:'The most comprehensive guide to systems design. Distributed systems, replication, consistency — all explained perfectly.'})">
+          <div class="km-tile-img" style="background:linear-gradient(135deg,#1a0010,#3d0025)"><span class="km-tile-initial">DD</span></div>
+          <div class="km-tile-name">Designing Data-Intensive Apps</div><div class="km-tile-sub">Martin Kleppmann</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SPORTS ─── -->
+  <div id="km-sports" class="km-section">
+    <div class="km-section-header">
+      <h2 class="km-section-title">🏆 Sports</h2>
+      <p class="km-section-sub">The games I live and breathe</p>
+    </div>
+    <div class="km-subsection sport-sub basketball">
+      <div class="km-sub-head sport-head"><h3>🏀 Basketball</h3></div>
+      <div class="km-tiles-grid">
+        <div class="km-tile" onclick="openTileDetail({emoji:'🏀',title:'LeBron James',sub:'LA Lakers · Forward',color:'#552583',body:'The GOAT debate personified. Longevity, IQ, leadership — superhuman.'})">
+          <div class="km-tile-img" style="background:linear-gradient(135deg,#1a0a2e,#552583)"><span class="km-tile-initial">LBJ</span></div>
+          <div class="km-tile-name">LeBron James</div><div class="km-tile-sub">LA Lakers</div>
+        </div>
+        <div class="km-tile" onclick="openTileDetail({emoji:'🏀',title:'Stephen Curry',sub:'Golden State Warriors',color:'#FFC72C',body:'Revolutionised the sport. The greatest shooter — no debate.'})">
+          <div class="km-tile-img" style="background:linear-gradient(135deg,#1a1200,#3d2b00)"><span class="km-tile-initial">SC</span></div>
+          <div class="km-tile-name">Stephen Curry</div><div class="km-tile-sub">Golden State Warriors</div>
+        </div>
+      </div>
+    </div>
+    <div class="km-subsection sport-sub football">
+      <div class="km-sub-head sport-head"><h3>⚽ Football</h3></div>
+      <div class="km-tiles-grid">
+        <div class="km-tile" onclick="openTileDetail({emoji:'⚽',title:'Lionel Messi',sub:'Argentina · G.O.A.T.',color:'#74b9ff',body:'The greatest footballer to ever live. The 2022 World Cup run was the most emotional sporting event I have witnessed.'})">
+          <div class="km-tile-img" style="background:linear-gradient(135deg,#001a3d,#00337a)"><span class="km-tile-initial">LM</span></div>
+          <div class="km-tile-name">Lionel Messi</div><div class="km-tile-sub">Argentina</div>
+        </div>
+      </div>
+    </div>
+    <div class="km-subsection sport-sub cricket">
+      <div class="km-sub-head sport-head"><h3>🏏 Cricket</h3></div>
+      <div class="km-tiles-grid">
+        <div class="km-tile" onclick="openTileDetail({emoji:'🏏',title:'MS Dhoni',sub:'CSK · India',color:'#FFFF00',body:'Cool under pressure is an understatement. The 2011 World Cup final six. The best finishing instincts in the game.'})">
+          <div class="km-tile-img" style="background:linear-gradient(135deg,#1a1a00,#3d3d00)"><span class="km-tile-initial">MSD</span></div>
+          <div class="km-tile-name">MS Dhoni</div><div class="km-tile-sub">CSK · India</div>
+        </div>
+        <div class="km-tile" onclick="openTileDetail({emoji:'🏏',title:'Virat Kohli',sub:'RCB · India',color:'#e63946',body:'The most intense competitor in Indian cricket. His 2016 T20 World Cup innings is the single best T20 innings ever.'})">
+          <div class="km-tile-img" style="background:linear-gradient(135deg,#1a0000,#3d0000)"><span class="km-tile-initial">VK</span></div>
+          <div class="km-tile-name">Virat Kohli</div><div class="km-tile-sub">RCB · India</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── BLOGS ─── -->
+  <div id="km-blogs" class="km-section">
+    <div class="km-section-header">
+      <h2 class="km-section-title">✍ Blogs &amp; Technical Writing</h2>
+      <p class="km-section-sub">Things I've written and want to share</p>
+    </div>
+    <div class="km-subsection">
+      <div class="km-sub-head"><h3>Technical Articles</h3></div>
+      <div class="blog-filter-bar">
+        <button class="blog-filter-btn active" data-filter="all" onclick="filterBlogs('all', this)">All</button>
+        <button class="blog-filter-btn" data-filter="system-design" onclick="filterBlogs('system-design', this)">System Design</button>
+        <button class="blog-filter-btn" data-filter="react" onclick="filterBlogs('react', this)">React</button>
+        <button class="blog-filter-btn" data-filter="devops" onclick="filterBlogs('devops', this)">DevOps</button>
+        <span class="blog-count" id="blog-count">3 articles</span>
+      </div>
+      <div class="km-blogs-grid">
+        <div class="km-blog-card" data-tags="system-design" onclick="openBlogModal(0)">
+          <div class="kb-tag">System Design</div>
+          <div class="kb-head">Building a Rate Limiter from Scratch</div>
+          <div class="kb-excerpt">How I implemented sliding window rate limiting in Node.js with Redis, handling 10k requests per second...</div>
+          <div class="kb-meta">5 min read · 2025</div>
+        </div>
+        <div class="km-blog-card" data-tags="react" onclick="openBlogModal(1)">
+          <div class="kb-tag">React</div>
+          <div class="kb-head">Why I Stopped Using useEffect</div>
+          <div class="kb-excerpt">After years of overusing useEffect, I discovered that most side effects can be handled during render...</div>
+          <div class="kb-meta">4 min read · 2024</div>
+        </div>
+        <div class="km-blog-card" data-tags="devops" onclick="openBlogModal(2)">
+          <div class="kb-tag">DevOps</div>
+          <div class="kb-head">Docker Compose for Local Dev</div>
+          <div class="kb-excerpt">My complete docker-compose setup for local development with PostgreSQL, Redis, and Node.js...</div>
+          <div class="kb-meta">6 min read · 2024</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="know-footer">
+    <div class="know-logo" style="font-size:1.5rem">RRS<span class="know-dot">.</span></div>
+    <p>Rahul Raj Singh · 2025</p>
+    <button class="know-switch-btn" onclick="backToProfiles()">⇄ Switch Profile</button>
+  </footer>
+
+</div><!-- /know-site -->
+
+
+<!-- ══════════════════════════════════════════
+     SHARED MODALS
+══════════════════════════════════════════ -->
+<div id="modal-overlay" class="modal-overlay hidden" onclick="closeModalOnOverlay(event)">
+  <div class="modal-box" id="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-scroll-area" id="modal-content"></div>
+  </div>
+</div>
+
+<!-- BACK TO TOP -->
+<button class="back-to-top" id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">↑</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-yaml.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
