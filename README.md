@@ -147,4 +147,3 @@ Feel free to explore, learn, and adapt – but please do not represent it as you
 
 **Choose your profile and dive in. 🔴🟡🟢**  
 
-## 📁 File Structure
